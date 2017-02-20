@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-
 import CommentEditor from './CommentEditor';
 
 export default class Comments extends Component {
@@ -10,13 +9,13 @@ export default class Comments extends Component {
   _renderComment(comment, i) {
     const { postId } = this.props.params;
     return (
-      <div className="comment flex-container" key={i}>
-        <p>
+      <div className="comment" key={i}>
+        <p className="container-flex">
           <strong>{comment.user}</strong>
           {comment.text}
+          <CommentEditor editComment={this.props.editComment} i={i} params={this.props.params} />
           <button onClick={this.props.removeComment.bind(null, postId, i)} className="remove-comment">&times;</button>
         </p>
-        <CommentEditor editComment={this.props.editComment} {...this.props} />
       </div>
     );
   }

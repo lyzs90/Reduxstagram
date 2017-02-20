@@ -17,11 +17,13 @@ const postComments = (state = [], action) => {
       ];
     case 'EDIT_COMMENT':
       return [
-        // return the old state with new comment
-        ...state, {
+        // replace current comment with new one
+        ...state.slice(0, i),
+        {
           user: action.author,
           text: action.comment
-        }
+        },
+        ...state.slice(i + 1)
       ];
     default:
       return state;
