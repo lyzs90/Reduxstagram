@@ -6,6 +6,8 @@
 
 const posts = (state = [], action) => {
   switch(action.type) {
+    case 'FETCH_DATA_SUCCEEDED': // batch load all posts
+      return action.data[0];
     case 'INCREMENT_LIKES':
       const i = action.index;
       // make a copy of the post array but only modify the likes property of the index object

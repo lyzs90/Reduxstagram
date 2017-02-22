@@ -6,7 +6,7 @@ import store, { history } from './store.js';
 
 // Sentry
 import Raven from 'raven-js';
-import { sentry_url } from './data/config';
+import { sentry_url } from './config';
 
 // Import css
 import css from './styles/style.styl';
@@ -28,5 +28,7 @@ const router = (
     </Router>
   </Provider>
 )
+
+store.dispatch({type: 'FETCH_DATA_REQUESTED'});
 
 render(router, document.getElementById('root'));

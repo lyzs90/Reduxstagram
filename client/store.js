@@ -1,25 +1,28 @@
-import { createStore, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 
-// Import root reducer
+// Import root reducer and sagas
 import rootReducer from './reducers/index';
+import rootSaga from './sagas'
 
-// Import default data i.e. from API
-import comments from './data/comments';
-import posts from './data/posts';
+// create saga middleware
+const sagaMiddleware = createSagaMiddleware();
 
-// Create object for the default data
-const defaultState = {
-  posts,
-  comments
-};
-
+// compose store enhancers
 const enhancers = compose(
+  applyMiddleware(sagaMiddleware),
   window.devToolsExtension ? window.devToolsExtension() : (f) => f
 );
 
-const store = createStore(rootReducer, defaultState, enhancers);
+const store = createStore(
+  rootReducer,
+  enhancers
+);
+
+// run sagas
+sagaMiddleware.run(rootSaga);
 
 export const history = syncHistoryWithStore(browserHistory, store);
 

@@ -32,6 +32,9 @@ const postComments = (state = [], action) => {
 
 // reducer to handle entire comments state
 const comments = (state = [], action) => {
+  if(action.type === 'FETCH_DATA_SUCCEEDED'){ // TODO: load comments only when Single is mounted
+    return action.data[1];
+  }
   if(typeof action.postId !== 'undefined') {
     return {
       // take the current state
