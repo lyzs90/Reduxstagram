@@ -12,16 +12,6 @@ export function *fetchData() {
 }
 
 /*
-export function *fetchData() {
-  const [posts, comments]  = yield [
-    call(fetchAll, '/posts'),
-    call(fetchAll, '/comments')
-  ];
-  console.log(posts)
-}
-*/
-
-/*
   Starts fetchPosts on each dispatched FETCH_POSTS_REQUESTED action
   Allows concurrent fetches of posts
 */
