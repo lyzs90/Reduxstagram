@@ -6,10 +6,12 @@ const postComments = (state = [], action) => {
     case 'ADD_COMMENT':
       return [
         // return the old state with new comment
-        ...state, {
+        ...state, 
+        {
           user: action.author,
           text: action.comment
-        }]
+        }
+      ];
     case 'REMOVE_COMMENT':
       return [
         ...state.slice(0, i),  // from start till the comment we want to delete
@@ -31,17 +33,40 @@ const postComments = (state = [], action) => {
 }
 
 // reducer to handle entire comments state
-const comments = (state = [], action) => {
-  if(action.type === 'FETCH_DATA_SUCCEEDED'){ // TODO: load comments only when Single is mounted
-    return action.data[1];
+const comments = (state = {
+  isFetching: false,
+  didInvalidate: false,
+  items: []
+}, action) => {
+  switch (action.type) {
+    case 'INVALIDATE_DATA':
+      return {
+        ...state,
+        didInvalidate: true
+      };
+    case 'FETCH_DATA_REQUESTED':
+      return {
+        ...state,
+        isFetching: true,
+        didInvalidate: false
+      };
+    case 'FETCH_DATA_SUCCEEDED':
+      return {
+        ...state,
+        isFetching: false,
+        didInvalidate: false,
+        items: action.data[1]
+      };
   }
+
   if(typeof action.postId !== 'undefined') {
     return {
-      // take the current state
       ...state,
-      // and overwrite this post with new one
-      [action.postId]: postComments(state[action.postId], action)
-    }
+      // take current item state and merge new comment
+      items: Object.assign(state.items, {
+          [action.postId]: postComments(state.items[action.postId], action)
+        })
+    };
   }
   return state;
 }

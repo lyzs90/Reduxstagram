@@ -12,11 +12,24 @@ export function *fetchData() {
 }
 
 /*
-  Starts fetchPosts on each dispatched FETCH_POSTS_REQUESTED action
-  Allows concurrent fetches of posts
+  worker Saga will be fired on ADD_COMMENT, EDIT_COMMENT and REMOVE_COMMENT actions
+*/
+export function *invalidateData() {
+  yield put({type: 'INVALIDATE_DATA'});
+}
+
+/*
+  Starts fetchPosts on each dispatched FETCH_POSTS_REQUESTED actions
 */
 export function *watchFetchData() {
   yield takeEvery('FETCH_DATA_REQUESTED', fetchData);
+}
+
+/*
+  Invalidates data on each dispatched ADD_COMMENT action
+*/
+export function *watchComments() {
+  yield takeEvery(['ADD_COMMENT', 'EDIT_COMMENT', 'REMOVE_COMMENT'], invalidateData);
 }
 
 /*
@@ -24,6 +37,7 @@ export function *watchFetchData() {
 */
 export default function *rootSaga() {
   yield [
-    watchFetchData()
+    watchFetchData(),
+    watchComments()
   ]
 }

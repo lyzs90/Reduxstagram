@@ -12,7 +12,7 @@ import { sentry_url } from './config';
 import css from './styles/style.styl';
 
 // Import components
-import App from './components/App';
+import App from './containers/App';
 import Single from './components/Single';
 import PhotoGrid from './components/PhotoGrid';
 
