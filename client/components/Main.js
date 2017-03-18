@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import { Loader } from './Loader';
 
 const Main = (props) => {
   const { posts, comments } = props;
@@ -10,7 +11,7 @@ const Main = (props) => {
         <Link to="/">Reduxstagram</Link>
       </h1>
       {isEmpty
-        ? (posts.isFetching ? <h3>Loading...</h3> : <h3></h3>)
+        ? (posts.isFetching ? <Loader /> : <h3></h3>)
         : React.cloneElement(props.children, props)
       }
     </div>

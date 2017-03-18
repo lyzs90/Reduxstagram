@@ -7,6 +7,17 @@ const parameterize = (params) => {
     .join('&');
 }
 
+const delay = (delay) => {
+  return (value) => {
+    return new Promise((resolve, reject) => {
+	  setTimeout(() => {
+	    resolve(value);
+	  }, delay)
+	});
+  }
+}
+
+
 export const fetchAll = (route) => {
   return fetch(`${root}${route}`, {
     method: 'GET',
@@ -14,7 +25,9 @@ export const fetchAll = (route) => {
     headers: new Headers({
       'Content-Type': 'application/json; charset=utf-8'
     })
-  }).then((response) => response.json());
+  })
+    .then(delay(3000))
+    .then((response) => response.json());
 }
 
 export const getComments = (postId) => {
@@ -31,5 +44,7 @@ export const getComments = (postId) => {
     headers: new Headers({
       'Content-Type': 'application/json; charset=utf-8'
     })
-  }).then((response) => response.json());
+  })
+    .then(delay(3000))
+    .then((response) => response.json());
 }
